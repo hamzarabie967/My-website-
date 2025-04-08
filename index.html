@@ -5,245 +5,237 @@
   <title>المحامي حمزة ربيع</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Cairo', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f9fa;
-      color: #212529;
-    }
-    header {
-      background-color: #003366;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    nav {
-      background-color: #005599;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 10px;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .hero {
-      padding: 60px 20px;
-      text-align: center;
-      background: linear-gradient(to right, #003366, #006699);
-      color: white;
-    }
-    .hero h1 {
-      margin: 0;
-      font-size: 36px;
-    }
-    .section {
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background-color: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    footer {
-      background-color: #003366;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-    }
-    button {
-      background-color: #006699;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover {
-      background-color: #004466;
-    }
-    input, textarea, select {
-      transition: 0.3s ease;
-    }
-    input:focus, textarea:focus, select:focus {
-      border: 2px solid #006699;
-      outline: none;
-    }
-    .whatsapp-btn {
-      display: inline-block;
-      background-color: #25D366;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: 10px;
-      transition: 0.3s;
-    }
-    .whatsapp-btn:hover {
-      background-color: #1ebe5d;
-    }
-    #chat-box {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      width: 300px;
-      max-height: 400px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      z-index: 1000;
-    }
-    #chat-header {
-      background-color: #006699;
-      color: white;
-      padding: 10px;
-      font-weight: bold;
-      text-align: center;
-    }
-    #chat-messages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      font-size: 14px;
-    }
-    #chat-input {
-      display: flex;
-      border-top: 1px solid #ccc;
-    }
-    #chat-input input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 0;
-    }
-    #chat-input button {
-      background-color: #006699;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-    }
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e293b;
+      --accent: #00bcd4;
+      --light: #f1f5f9;
+      --white: #ffffff;
+    }* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Cairo', sans-serif;
+}
+
+body {
+  background-color: var(--light);
+  color: var(--primary);
+}
+
+header {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 30px 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: var(--accent);
+  border: none;
+  color: var(--white);
+  font-size: 24px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.sidebar {
+  position: fixed;
+  right: -300px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background-color: var(--secondary);
+  color: var(--white);
+  padding: 40px 20px;
+  transition: right 0.4s ease;
+  z-index: 1000;
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar h3 {
+  margin-bottom: 30px;
+}
+
+.sidebar a {
+  display: block;
+  color: var(--white);
+  text-decoration: none;
+  margin-bottom: 20px;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: var(--accent);
+}
+
+.hero {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+form input, form textarea, form select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+form button {
+  background-color: var(--accent);
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+form button:hover {
+  background-color: #0097a7;
+}
+
+.whatsapp-btn {
+  background-color: #25D366;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+iframe {
+  border-radius: 12px;
+}
+
+footer {
+  background-color: var(--primary);
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 50px;
+}
+
   </style>
 </head>
 <body>
-  <header>
-    <h1>المحامي حمزة ربيع</h1>
-    <p>خدمة قانونية موثوقة واحترافية</p>
-  </header>
-  <nav>
+  <button class="menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('active')">≡</button>
+  <div class="sidebar">
+    <h3>القائمة الرئيسية</h3>
     <a href="#consultation">طلب استشارة</a>
+    <a href="#appointment">حجز موعد</a>
     <a href="#cases">أنواع القضايا</a>
     <a href="#about">من نحن</a>
     <a href="#contact">اتصل بنا</a>
-  </nav>
-  <div class="hero">
-    <h1>مرحباً بكم في مكتب المحامي حمزة ربيع</h1>
-    <p>نحن هنا للدفاع عن حقوقكم وتقديم الاستشارات القانونية في مختلف المجالات</p>
-  </div>
-  <section class="section" id="consultation">
+  </div>  <header>
+    <h1>المحامي حمزة ربيع</h1>
+    <p>الاحترافية والدقة في تقديم الخدمات القانونية</p>
+  </header>  <div class="hero">
+    <h1>نقدم حلول قانونية متكاملة</h1>
+    <p>الاحتراف والسرية والثقة في التعامل</p>
+  </div>  <section class="section" id="consultation">
     <h2>طلب استشارة قانونية</h2>
-    <p>املأ النموذج التالي للحصول على استشارة:</p>
-    <form onsubmit="event.preventDefault(); alert('تم إرسال الاستشارة بنجاح!');">
-      <label>الاسم الكامل:</label><br>
-      <input type="text" name="name" required style="width:100%; padding:8px;"><br><br>
-      <label>البريد الإلكتروني:</label><br>
-      <input type="email" name="email" required style="width:100%; padding:8px;"><br><br>
-      <label>نوع القضية:</label><br>
-      <select name="case-type" required style="width:100%; padding:8px;">
-        <option>قضية جنائية</option>
-        <option>قضية مدنية</option>
-        <option>قضية إدارية</option>
-        <option>قضية أحوال شخصية</option>
-        <option>قضية تجارية</option>
-      </select><br><br>
-      <label>وصف مختصر:</label><br>
-      <textarea name="description" rows="5" required style="width:100%; padding:8px;"></textarea><br><br>
-      <button type="submit">إرسال</button>
+    <form action="mailto:xhamze967@gmail.com" method="POST" enctype="text/plain">
+      <input type="text" name="name" placeholder="الاسم الكامل" required>
+      <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+      <select name="type" required>
+        <option value="جنائية">قضية جنائية</option>
+        <option value="مدنية">قضية مدنية</option>
+        <option value="إدارية">قضية إدارية</option>
+        <option value="أحوال شخصية">قضية أحوال شخصية</option>
+        <option value="تجارية">قضية تجارية</option>
+      </select>
+      <textarea name="details" rows="6" placeholder="وصف القضية أو السؤال" required></textarea>
+      <button type="submit">إرسال الاستشارة</button>
     </form>
-  </section>
-  <section class="section" id="cases">
-    <h2>أنواع القضايا التي نعالجها</h2>
+  </section>  <section class="section" id="appointment">
+    <h2>حجز موعد</h2>
+    <form action="mailto:xhamze967@gmail.com" method="POST" enctype="text/plain">
+      <input type="text" name="name" placeholder="الاسم الكامل" required>
+      <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+      <input type="tel" name="phone" placeholder="رقم الهاتف" required>
+      <input type="date" name="date" required>
+      <input type="time" name="time" required>
+      <textarea name="note" rows="4" placeholder="ملاحظات إضافية (اختياري)"></textarea>
+      <button type="submit">حجز الموعد</button>
+    </form>
+  </section>  <section class="section" id="cases">
+    <h2>أنواع القضايا</h2>
     <div class="cards">
       <div class="card">
         <h3>القضايا الجنائية</h3>
-        <p>دفاع شامل في جميع أنواع الجرائم بما فيها القتل، السرقة، الاحتيال، وغيرها.</p>
+        <p>الدفاع عن المتهمين في القضايا الجنائية المعقدة والبسيطة.</p>
       </div>
       <div class="card">
         <h3>القضايا المدنية</h3>
-        <p>حل النزاعات المتعلقة بالعقود، التعويضات، والمطالبات المالية.</p>
+        <p>حل النزاعات المتعلقة بالعقود، التعويضات، والمسؤولية المدنية.</p>
       </div>
       <div class="card">
         <h3>القضايا الإدارية</h3>
-        <p>الطعون في القرارات الإدارية والتظلمات المتعلقة بالوظائف العامة.</p>
+        <p>التظلم من القرارات الإدارية والمرافعة أمام القضاء الإداري.</p>
       </div>
       <div class="card">
         <h3>الأحوال الشخصية</h3>
-        <p>الطلاق، الحضانة، النفقة، والوصايا ضمن إطار الشريعة.</p>
+        <p>الطلاق، الحضانة، الإرث، والنفقة وفقًا لأحكام القانون السوري.</p>
       </div>
       <div class="card">
         <h3>القضايا التجارية</h3>
-        <p>الخلافات بين الشركات، العقود التجارية، قضايا الإفلاس.</p>
+        <p>النزاعات بين الشركات، العقود التجارية، والتحكيم.</p>
       </div>
     </div>
-  </section>
-  <section class="section" id="about">
+  </section>  <section class="section" id="about">
     <h2>من نحن</h2>
-    <p>المحامي حمزة ربيع يتمتع بخبرة تزيد عن 10 سنوات في المجال القانوني، ويقدم خدماته للأفراد والشركات باحترافية عالية وسرية تامة.</p>
-  </section>
-  <section class="section" id="contact">
+    <p>مكتب المحامي حمزة ربيع يقدم خدمات قانونية عالية الجودة للأفراد والشركات، بخبرة ومعرفة واسعة في القانون السوري ومبادئ العدالة.</p>
+  </section>  <section class="section" id="contact">
     <h2>اتصل بنا</h2>
-    <p>للتواصل معنا يرجى استخدام المعلومات التالية:</p>
-    <p>الهاتف: 0999999999</p>
-    <p>البريد الإلكتروني: hamza.lawyer@example.com</p>
-    <p>العنوان: دمشق - شارع الثورة - بناء العدالة</p>
-    <p>واتساب مباشر:
-      <a class="whatsapp-btn" href="https://wa.me/963982925793" target="_blank">راسلنا على واتساب</a>
-    </p>
-    <h3>موقعنا على الخريطة:</h3>
-    <iframe src="https://www.google.com/maps?q=دمشق+شارع+الثورة&output=embed" width="100%" height="300" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy"></iframe>
-  </section>
-  <footer>
+    <p><strong>الهاتف:</strong> 0982925793</p>
+    <p><strong>البريد الإلكتروني:</strong> xhamze967@gmail.com</p>
+    <p><strong>العنوان:</strong> اللاذقية - شارع الثورة - مقابل قصر العدل</p>
+    <a class="whatsapp-btn" href="https://wa.me/963982925793" target="_blank">راسلنا عبر واتساب</a>
+    <h3 style="margin-top:40px;">موقع المكتب على الخريطة:</h3>
+    <iframe src="https://www.google.com/maps?q=اللاذقية,+سوريا&output=embed" width="100%" height="300" allowfullscreen="" loading="lazy"></iframe>
+  </section>  <footer>
     <p>جميع الحقوق محفوظة &copy; 2025 - المحامي حمزة ربيع</p>
-  </footer>  <!-- واجهة الدردشة المباشرة -->  <div id="chat-box">
-    <div id="chat-header">دردشة مباشرة</div>
-    <div id="chat-messages"></div>
-    <div id="chat-input">
-      <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
-      <button onclick="sendMessage()">إرسال</button>
-    </div>
-  </div>  <script>
-    function sendMessage() {
-      const input = document.getElementById('userInput');
-      const messages = document.getElementById('chat-messages');
-      if (input.value.trim() !== '') {
-        const userMsg = document.createElement('div');
-        userMsg.textContent = 'أنت: ' + input.value;
-        messages.appendChild(userMsg);
-        const reply = document.createElement('div');
-        reply.textContent = 'الرد الآلي: شكراً لتواصلك معنا، سيتم الرد عليك قريباً.';
-        setTimeout(() => messages.appendChild(reply), 500);
-        input.value = '';
-        messages.scrollTop = messages.scrollHeight;
-      }
-    }
-  </script></body>
-</html>
+  </footer>
+</body>
+               </html>
