@@ -1,351 +1,321 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>المحامي حمزة ربيع | خدمات قانونية احترافية</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة المحامي حمزة ربيع | SaaS القانوني</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <style>
-    /* 1. المتغيرات والهيكل العام */
-    :root {
-      --primary: #1a237e; /* كحلي ملكي */
-      --accent: #c5a059;  /* ذهبي مطفي */
-      --dark: #121212;
-      --light: #f4f4f9;
-      --white: #ffffff;
-      --transition: all 0.3s ease;
-    }
+    <style>
+        :root {
+            --primary: #0a1033;
+            --accent: #c5a059;
+            --gold-grad: linear-gradient(45deg, #c5a059, #f9f1c0, #c5a059);
+            --light: #f4f7f6;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --success: #2e7d32;
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Cairo', sans-serif;
-      scroll-behavior: smooth;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background: var(--light); color: var(--primary); overflow-x: hidden; }
 
-    body {
-      background-color: var(--light);
-      color: var(--dark);
-      overflow-x: hidden;
-    }
+        /* Sidebar & Layout */
+        .menu-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; }
+        .sidebar { 
+            position: fixed; right: -300px; top: 0; width: 280px; height: 100vh; 
+            background: rgba(10, 16, 51, 0.98); backdrop-filter: blur(10px); 
+            z-index: 999; transition: var(--transition); padding: 60px 20px; color: white;
+        }
+        .sidebar.active { right: 0; }
+        .sidebar a { display: block; color: white; text-decoration: none; padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-    /* 2. القائمة الجانبية والـ Overlay */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      z-index: 998;
-    }
+        /* Hero Section */
+        header {
+            height: 60vh;
+            background: linear-gradient(rgba(10,16,51,0.85), rgba(10,16,51,0.85)), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;
+        }
 
-    .sidebar {
-      position: fixed;
-      right: -300px;
-      top: 0;
-      height: 100vh;
-      width: 280px;
-      background: var(--primary);
-      color: var(--white);
-      transition: var(--transition);
-      z-index: 1000;
-      padding: 60px 20px;
-      box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-    }
+        /* Dashboard & Cards */
+        .section { padding: 40px 10%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: var(--white); padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        
+        /* Progress Bar Style */
+        .progress-container { background: #eee; height: 8px; border-radius: 4px; margin: 15px 0; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent); transition: width 0.5s ease; }
+        
+        /* Order Items */
+        .order-item { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-right: 5px solid var(--accent); }
+        .admin-panel { background: #fff3e0; border: 2px dashed var(--accent); padding: 20px; border-radius: 15px; margin-top: 30px; display: none; }
 
-    .sidebar.open { right: 0; }
-    .sidebar.open + .overlay { display: block; }
-
-    .sidebar nav a {
-      display: block;
-      color: var(--white);
-      text-decoration: none;
-      padding: 15px 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      transition: var(--transition);
-    }
-
-    .sidebar nav a:hover { color: var(--accent); padding-right: 20px; }
-
-    .toggle-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1001;
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 12px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    /* 3. الهيدر والبطولة (Hero Section) */
-    header {
-      background: linear-gradient(rgba(26, 35, 126, 0.9), rgba(26, 35, 126, 0.9)), 
-                  url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80');
-      background-size: cover;
-      background-position: center;
-      height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: var(--white);
-      padding: 20px;
-    }
-
-    .hero-h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--accent); }
-    .hero-p { font-size: 1.2rem; max-width: 700px; }
-
-    /* 4. الأقسام والبطاقات */
-    .section { padding: 80px 10% 40px; }
-    .section-title {
-      text-align: center;
-      margin-bottom: 50px;
-      position: relative;
-    }
-    .section-title::after {
-      content: '';
-      width: 60px;
-      height: 3px;
-      background: var(--accent);
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-
-    .card {
-      background: var(--white);
-      padding: 30px;
-      border-radius: 15px;
-      text-align: center;
-      transition: var(--transition);
-      border-bottom: 4px solid transparent;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      border-bottom: 4px solid var(--accent);
-    }
-
-    .card i {
-      font-size: 40px;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-
-    /* 5. النماذج (Forms) */
-    .form-container {
-      background: var(--white);
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 15px;
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background: #fdfdfd;
-    }
-
-    button.btn-submit {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 15px 40px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      width: 100%;
-      transition: var(--transition);
-    }
-
-    button.btn-submit:hover { background: var(--accent); }
-
-    /* 6. المزايا (لماذا نحن) */
-    .features {
-      background: var(--primary);
-      color: white;
-      padding: 60px 10%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      text-align: center;
-    }
-
-    /* 7. العودة للأعلى والواتساب */
-    .back-to-top {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: var(--primary);
-      color: white;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      display: none;
-      z-index: 999;
-    }
-
-    /* التجاوب */
-    @media (max-width: 768px) {
-      .hero-h1 { font-size: 2rem; }
-      .section { padding: 60px 5%; }
-    }
-  </style>
+        /* Modals */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-content { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+        
+        .btn-gold { background: var(--gold-grad); border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; color: #000; }
+        .loading-spinner { display: none; border: 3px solid #f3f3f3; border-top: 3px solid var(--accent); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
 
-  <button class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-  <div class="overlay" onclick="toggleSidebar()"></div>
-  <div class="sidebar" id="sidebar">
-    <nav>
-      <a href="#" onclick="toggleSidebar()">الرئيسية</a>
-      <a href="#about" onclick="toggleSidebar()">من نحن</a>
-      <a href="#cases" onclick="toggleSidebar()">التخصصات</a>
-      <a href="#why-us" onclick="toggleSidebar()">لماذا نحن</a>
-      <a href="#consult" onclick="toggleSidebar()">استشارة قانونية</a>
-      <a href="#contact" onclick="toggleSidebar()">اتصل بنا</a>
-    </nav>
-  </div>
+    <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
 
-  <header>
-    <h1 class="hero-h1" data-aos="fade-down">المحامي حمزة ربيع</h1>
-    <p class="hero-p" data-aos="fade-up">نكرّس خبرتنا القانونية لحماية حقوقكم بمهنية عالية وأمانة تامة في قلب اللاذقية.</p>
-  </header>
-
-  <section class="features" id="why-us">
-    <div data-aos="zoom-in">
-      <i class="fas fa-user-shield fa-2xl"></i>
-      <h3>سرية تامة</h3>
-      <p>نحافظ على خصوصية بياناتكم كأولوية قصوى.</p>
-    </div>
-    <div data-aos="zoom-in" data-aos-delay="100">
-      <i class="fas fa-gavel fa-2xl"></i>
-      <h3>خبرة قضائية</h3>
-      <p>سنوات من الترافع الناجح في المحاكم السورية.</p>
-    </div>
-    <div data-aos="zoom-in" data-aos-delay="200">
-      <i class="fas fa-clock fa-2xl"></i>
-      <h3>متابعة مستمرة</h3>
-      <p>إحاطة الموكل بكل مستجدات القضية أولاً بأول.</p>
-    </div>
-  </section>
-
-  <section class="section" id="cases">
-    <h2 class="section-title">مجالات الاختصاص</h2>
-    <div class="cards-grid">
-      <div class="card" data-aos="fade-up">
-        <i class="fas fa-handcuffs"></i>
-        <h3>القضايا الجنائية</h3>
-        <p>دفاع مستميت في قضايا الجنايات والجنح والتحقيق الأولي.</p>
-      </div>
-      <div class="card" data-aos="fade-up" data-aos-delay="100">
-        <i class="fas fa-users"></i>
-        <h3>الأحوال الشخصية</h3>
-        <p>قضايا الزواج، الطلاق، الحضانة، وحصر الإرث بدقة شرعية وقانونية.</p>
-      </div>
-      <div class="card" data-aos="fade-up" data-aos-delay="200">
-        <i class="fas fa-briefcase"></i>
-        <h3>القانون التجاري</h3>
-        <p>تأسيس الشركات، صياغة العقود، وحل النزاعات التجارية.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="consult" style="background: #eceff1;">
-    <h2 class="section-title">اطلب استشارتك الآن</h2>
-    <div class="form-container" data-aos="fade-right">
-      <form action="https://formspree.io/f/your-id" method="POST"> 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-          <input type="text" name="name" placeholder="الاسم الكامل" required>
-          <input type="tel" name="phone" placeholder="رقم الهاتف" required>
+    <div class="sidebar" id="sidebar">
+        <div id="auth-status" style="margin-bottom: 20px; text-align: center;">
+            <button class="btn-gold" id="loginBtn">
+                <i class="fab fa-google"></i> دخول سريع
+            </button>
         </div>
-        <select name="subject">
-          <option>نوع القضية</option>
-          <option>جنائية</option>
-          <option>مدنية</option>
-          <option>تجارية</option>
-        </select>
-        <textarea name="message" rows="5" placeholder="اشرح تفاصيل قضيتك بإيجاز..."></textarea>
-        <button type="submit" class="btn-submit">إرسال البيانات للمراجعة</button>
-      </form>
+        <nav>
+            <a href="#">الرئيسية</a>
+            <a href="#services">الخدمات</a>
+            <a href="#dashboard">طلباتي</a>
+        </nav>
     </div>
-  </section>
 
-  <section class="section" id="contact">
-    <div class="cards-grid">
-      <div data-aos="fade-left">
-        <h2 style="color:var(--primary)">بيانات الاتصال</h2>
-        <p><i class="fas fa-map-marker-alt"></i> اللاذقية - مقابل قصر العدل</p>
-        <p><i class="fas fa-phone"></i> 0982925793</p>
-        <p><i class="fas fa-envelope"></i> hamza.rabie.contact@gmail.com</p>
-        <br>
-        <a href="https://wa.me/963982925793" class="btn-submit" style="text-decoration:none; background:#25D366;">
-          <i class="fab fa-whatsapp"></i> مراسلة واتساب فورية
-        </a>
-      </div>
-      <div data-aos="fade-right">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3257.653421!2d35.7833!3d35.5333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1526ac2fd9d9c639%3A0x5e0c8b0c0c0c0c0c!2z2YLYtdixINin2YTYudiv2YQ!5e0!3m2!1sar!2ssy!4v1700000000000" 
-          width="100%" height="300" style="border:0; border-radius:15px;" allowfullscreen="" loading="lazy">
-        </iframe>
-      </div>
+    <header>
+        <h1 data-aos="fade-down" style="font-size: 2.5rem; color: var(--accent);">المحامي حمزة ربيع</h1>
+        <p>التميز القانوني في العصر الرقمي</p>
+    </header>
+
+    <section class="section" id="services">
+        <div class="grid">
+            <div class="card" data-aos="fade-up">
+                <i class="fas fa-file-signature"></i>
+                <h3>صياغة عقد</h3>
+                <button class="btn-gold" onclick="openModal('صياغة عقد')">اطلب الخدمة</button>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-gavel"></i>
+                <h3>استشارة قانونية</h3>
+                <button class="btn-gold" onclick="openModal('استشارة قانونية')">اطلب الخدمة</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="dashboard">
+        <h2>لوحة التحكم</h2>
+        <div id="user-orders">
+            <p>يرجى تسجيل الدخول لمتابعة طلباتك.</p>
+        </div>
+
+        <div id="admin-section" class="admin-panel">
+            <h3><i class="fas fa-user-shield"></i> لوحة إدارة المحامي</h3>
+            <div id="all-orders-admin"></div>
+        </div>
+    </section>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <h3>طلب: <span id="serviceTitle"></span></h3>
+            <form id="orderForm">
+                <div style="background: #fdf2f2; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin: 10px 0;">
+                    <i class="fas fa-wallet"></i> حول لـ <b>شام كاش</b>: <br>
+                    <code>3ddff32c994dfc4a3d292b0d93423349</code>
+                </div>
+                <label>صورة إشعار الدفع:</label>
+                <input type="file" id="receiptFile" accept="image/*" required style="display:block; margin: 10px 0;">
+                <textarea id="orderNotes" placeholder="اكتب تفاصيل طلبك هنا..." required style="width:100%; height:100px; padding:10px; margin-bottom:10px;"></textarea>
+                <button type="submit" class="btn-gold" id="submitBtn">تأكيد الطلب</button>
+                <button type="button" onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; color:gray;">إغاق</button>
+            </form>
+        </div>
     </div>
-  </section>
 
-  <div class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></div>
+    <script type="module">
+        // --- استيراد Firebase v10 ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, onSnapshot, serverTimestamp, doc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-  <footer style="background: var(--dark); color: white; text-align: center; padding: 40px;">
-    <p>© 2026 مكتب المحامي حمزة ربيع | صرح قانوني نعتز به</p>
-  </footer>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAwfVBtZvICXzCCtmD5QrkIeMYceD5AIfM",
+            authDomain: "hamzarabie-6c902.firebaseapp.com",
+            projectId: "hamzarabie-6c902",
+            storageBucket: "hamzarabie-6c902.appspot.com",
+            appId: "1:1080802783911:web:2afb6502240e4f5d142182"
+        };
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    // تفعيل الأنميشن
-    AOS.init({ duration: 1000, once: true });
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        const provider = new GoogleAuthProvider();
 
-    // القائمة الجانبية
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-    }
+        const ADMIN_EMAIL = "hamza.rabie.contact@gmail.com";
 
-    // زر العودة للأعلى
-    const btt = document.getElementById('backToTop');
-    window.onscroll = function() {
-      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        btt.style.display = "flex";
-      } else {
-        btt.style.display = "none";
-      }
-    };
-    btt.onclick = function() {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    };
-  </script>
+        // --- نظام الدخول ---
+        document.getElementById('loginBtn').onclick = async () => {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                // إنشاء مستند مستخدم
+                await setDoc(doc(db, "users", user.uid), {
+                    name: user.displayName,
+                    email: user.email,
+                    lastLogin: serverTimestamp()
+                }, { merge: true });
+                
+                Swal.fire('أهلاً بك!', `تم تسجيل الدخول بنجاح يا ${user.displayName}`, 'success');
+            } catch (error) {
+                console.error(error);
+                Swal.fire('خطأ', 'فشل تسجيل الدخول', 'error');
+            }
+        };
+
+        // --- مراقبة حالة المستخدم ---
+        onAuthStateChanged(auth, (user) => {
+            const authBox = document.getElementById('auth-status');
+            if (user) {
+                authBox.innerHTML = `
+                    <img src="${user.photoURL}" style="width:50px; border-radius:50%; border:2px solid var(--accent);">
+                    <p style="font-size:0.8rem;">${user.displayName}</p>
+                    <button onclick="window.logout()" style="color:red; background:none; border:none; cursor:pointer;">خروج</button>
+                `;
+                loadUserOrders(user.uid);
+                
+                // التحقق من الآدمن
+                if (user.email === ADMIN_EMAIL) {
+                    document.getElementById('admin-section').style.display = 'block';
+                    loadAdminOrders();
+                }
+            } else {
+                location.reload(); // إعادة التحميل لتنظيف البيانات
+            }
+        });
+
+        window.logout = () => signOut(auth);
+
+        // --- معالجة الطلبات ---
+        window.openModal = (service) => {
+            if (!auth.currentUser) return Swal.fire('تنبيه', 'يجب تسجيل الدخول أولاً', 'info');
+            document.getElementById('serviceTitle').innerText = service;
+            document.getElementById('orderModal').style.display = 'flex';
+        };
+
+        window.closeModal = () => document.getElementById('orderModal').style.display = 'none';
+
+        document.getElementById('orderForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const file = document.getElementById('receiptFile').files[0];
+            const notes = document.getElementById('orderNotes').value;
+            const service = document.getElementById('serviceTitle').innerText;
+
+            if (!file) return Swal.fire('نقص بيانات', 'يرجى رفع إيصال الدفع', 'warning');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> جاري الإرسال...';
+
+            try {
+                // 1. الرفع للـ Storage
+                const storageRef = ref(storage, `receipts/${auth.currentUser.uid}/${Date.now()}_${file.name}`);
+                const snapshot = await uploadBytes(storageRef, file);
+                const downloadURL = await getDownloadURL(snapshot.ref);
+
+                // 2. الحفظ في Firestore
+                await addDoc(collection(db, "orders"), {
+                    userId: auth.currentUser.uid,
+                    userName: auth.currentUser.displayName,
+                    userEmail: auth.currentUser.email,
+                    service: service,
+                    notes: notes,
+                    receipt: downloadURL,
+                    status: "قيد المراجعة",
+                    progress: 20,
+                    createdAt: serverTimestamp()
+                });
+
+                Swal.fire('تم بنجاح', 'استلمنا طلبك، سيراجعه المحامي قريباً', 'success');
+                closeModal();
+            } catch (err) {
+                Swal.fire('خطأ', 'تعذر إرسال الطلب، حاول ثانية', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'تأكيد الطلب';
+            }
+        };
+
+        // --- عرض الطلبات للمستخدم ---
+        function loadUserOrders(uid) {
+            const q = query(collection(db, "orders"), where("userId", "==", uid));
+            onSnapshot(q, (snapshot) => {
+                let html = "";
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    html += `
+                        <div class="order-item">
+                            <strong>${data.service}</strong>
+                            <p style="font-size:0.8rem; color:gray;">الحالة: ${data.status}</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: ${data.progress}%"></div>
+                            </div>
+                            ${data.resultFile ? `<a href="${data.resultFile}" target="_blank" style="color:var(--success); font-weight:bold;"><i class="fas fa-download"></i> تحميل النتيجة النهائية</a>` : ''}
+                        </div>
+                    `;
+                });
+                document.getElementById('user-orders').innerHTML = html || "لا يوجد طلبات نشطة حالياً.";
+            });
+        }
+
+        // --- عرض الطلبات للآدمن (المحامي) ---
+        function loadAdminOrders() {
+            onSnapshot(collection(db, "orders"), (snapshot) => {
+                let html = "";
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    html += `
+                        <div style="background:white; padding:15px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd;">
+                            <p><strong>العميل:</strong> ${data.userName} (${data.service})</p>
+                            <a href="${data.receipt}" target="_blank">مشاهدة الإيصال</a> | 
+                            <select onchange="updateStatus('${id}', this.value)">
+                                <option value="قيد المراجعة" ${data.status === 'قيد المراجعة' ? 'selected' : ''}>قيد المراجعة</option>
+                                <option value="جاري العمل" ${data.status === 'جاري العمل' ? 'selected' : ''}>جاري العمل</option>
+                                <option value="تم التنفيذ" ${data.status === 'تم التنفيذ' ? 'selected' : ''}>تم التنفيذ</option>
+                            </select>
+                            <button onclick="uploadResult('${id}')" style="font-size:0.7rem; padding:2px 5px;">رفع النتيجة</button>
+                        </div>
+                    `;
+                });
+                document.getElementById('all-orders-admin').innerHTML = html;
+            });
+        }
+
+        // دوال التحكم للآدمن
+        window.updateStatus = async (id, newStatus) => {
+            let prog = 20;
+            if(newStatus === "جاري العمل") prog = 60;
+            if(newStatus === "تم التنفيذ") prog = 100;
+            await updateDoc(doc(db, "orders", id), { status: newStatus, progress: prog });
+        };
+
+        window.uploadResult = async (id) => {
+            const { value: file } = await Swal.fire({
+                title: 'اختر ملف النتيجة (PDF/Doc)',
+                input: 'file',
+                inputAttributes: { accept: '*', 'aria-label': 'Upload result' }
+            });
+            if (file) {
+                const sRef = ref(storage, `results/${id}/${file.name}`);
+                await uploadBytes(sRef, file);
+                const url = await getDownloadURL(sRef);
+                await updateDoc(doc(db, "orders", id), { resultFile: url, status: "تم التنفيذ", progress: 100 });
+                Swal.fire('تم الرفع', 'تم إرسال الملف للعميل بنجاح', 'success');
+            }
+        };
+
+        // تهيئة الـ AOS
+        window.onload = () => { AOS.init(); };
+    </script>
 </body>
 </html>
